@@ -1,0 +1,3 @@
+C:/ITMO_Project/cmake-build-debug/CMakeFiles/ITMO_Project.dir
+C:/ITMO_Project/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/ITMO_Project/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,4 @@
+Hello, {*name}
+Your order number is {order_number}
+Check your e-mail {e_mail} for current updates
+{shop_name} administration
