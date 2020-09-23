@@ -60,6 +60,6 @@ int main() {
             std::cout << report << std::endl;
         }
     }
-    delete tmp;
+    delete[] tmp;
     return 0;
 }
