@@ -7,31 +7,38 @@ struct Pr {
     std::string param_value;
 };
 
-int main() {
+int main(int argc, char *argv[]) {
 
     std::string parameters;
     char *tmp = new char[10000];
-    int backspace_pos;
+    int colon_pos;
 
-    std::fstream file;
-    file.open("params.txt", std::ios::in);
+    std::ifstream file;
+    file.open("params.json");
 
     std::vector<Pr> params;
     Pr temp;
     while (file.getline(tmp, 10000)) {
         parameters = std::string(tmp);
-        backspace_pos = parameters.find(' ');
-        temp.param_name = parameters.substr(0, backspace_pos - 1);
-        temp.param_value = parameters.substr(backspace_pos + 1, parameters.length() - 1);
-        params.push_back(temp);
+        if (parameters[0] == '{' || parameters[0] == '}')
+            continue;
+        else {
+            colon_pos = parameters.find(':');
+            temp.param_name = parameters.substr(3, colon_pos - 4);
+            if(parameters[parameters.length() - 1] == ',')
+                temp.param_value = parameters.substr(colon_pos + 3, parameters.length() - 5 - colon_pos);
+            else
+                temp.param_value = parameters.substr(colon_pos + 3, parameters.length() - 4 - colon_pos);
+            params.push_back(temp);
+        }
     }
 
-    std::string report = "";
+    std::string report, new_str;
     file.close();
-    int param_begin = 0, param_end = 0, i;
+    int param_begin, param_end, i;
     std::string name;
     bool isInParams;
-    file.open("report_in.txt", std::ios::in);
+    file.open("report_in.txt");
     while (!file.eof()) {
         file.getline(tmp, 10000);
         report = std::string(tmp);
@@ -57,9 +64,20 @@ int main() {
                 report.replace(param_begin, param_end - param_begin + 1, params[i].param_value);
             else
                 report.erase(param_begin, param_end - param_begin + 1);
-            std::cout << report << std::endl;
+            new_str += report + "\n";
         }
     }
+    file.close();
+    std::string command = argv[1];
+    if(command == "-f") {
+        std::ofstream out;
+        out.open("report_out.txt");
+        out << new_str;
+        out.close();
+    }
+    else
+        std::cout << new_str;
+
     delete[] tmp;
     return 0;
 }
