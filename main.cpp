@@ -18,6 +18,9 @@ int main(int argc, char *argv[]) {
 
     std::vector<Pr> params;
     Pr temp;
+    int symbols_with_comma = 5;
+    int symbols_without_comma = 4;
+
     while (file.getline(tmp, 10000)) {
         parameters = std::string(tmp);
         if (parameters[0] == '{' || parameters[0] == '}')
@@ -26,9 +29,9 @@ int main(int argc, char *argv[]) {
             colon_pos = parameters.find(':');
             temp.param_name = parameters.substr(3, colon_pos - 4);
             if(parameters[parameters.length() - 1] == ',')
-                temp.param_value = parameters.substr(colon_pos + 3, parameters.length() - 5 - colon_pos);
+                temp.param_value = parameters.substr(colon_pos + 3, parameters.length() - symbols_with_comma - colon_pos);
             else
-                temp.param_value = parameters.substr(colon_pos + 3, parameters.length() - 4 - colon_pos);
+                temp.param_value = parameters.substr(colon_pos + 3, parameters.length() - symbols_without_comma - colon_pos);
             params.push_back(temp);
         }
     }
